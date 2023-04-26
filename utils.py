@@ -1,5 +1,6 @@
-import disnake
 import datetime
+
+import disnake
 
 
 class Embeds:
@@ -12,7 +13,7 @@ class Embeds:
 
     @staticmethod
     def emb(color, name=None, value=None) -> disnake.Embed:
-        """ Returns a embed """
+        """Returns a embed"""
         Em = disnake.Embed(color=color, title=name, description=value)
         Em.timestamp = datetime.datetime.utcnow()
         Em.set_footer(
