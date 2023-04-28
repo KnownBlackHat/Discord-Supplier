@@ -6,6 +6,7 @@ import sys
 
 import aiohttp
 import disnake
+from typing import Union
 
 from utils import Embeds
 
@@ -31,10 +32,10 @@ async def encrypt(url: str) -> str:
 
 
 async def send_webhook(
-    webhook_url,
+    webhook_url: str,
     embed: disnake.Embed,
     username: str,
-    content=None,
+    content: Union[None, str] = None,
     avatar_url: str = "https://cdn.discordapp.com/avatars/1087375480304451727/"
     "f780c7c8c052c66c89f9270aebd63bc2.png?size=1024",
 ) -> None:
@@ -46,7 +47,7 @@ async def send_webhook(
         )
 
 
-async def main(title: str, payload: str, preview: None | str = None) -> None:
+async def main(title: str, payload: str, preview: Union[None, str] = None) -> None:
     try:
         if re.match(r"^(https?://)", payload):
             payload = f"**Link: {await encrypt(payload)}**"
