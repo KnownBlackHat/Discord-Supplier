@@ -68,7 +68,7 @@ def get_input() -> Tuple[str, str, str]:
     try:
         title = sys.argv[1]
         payload = sys.argv[2]
-        preview = sys.argv[2]
+        preview = sys.argv[3]
 
         return (title, payload, preview)
     except IndexError:
