@@ -6,7 +6,7 @@ import sys
 
 import aiohttp
 import disnake
-from typing import Union
+from typing import Tuple, Union
 
 from utils import Embeds
 
@@ -64,7 +64,16 @@ async def main(title: str, payload: str, preview: Union[None, str] = None) -> No
         )
 
 
-try:
-    asyncio.run(main(title=sys.argv[1], payload=sys.argv[2], preview=sys.argv[3]))
-except IndexError:
-    raise IndexError(f"Required arguments not passed\n{_usage}")
+def get_input() -> Tuple[str, str, str]:
+    try:
+        title = sys.argv[1]
+        payload = sys.argv[2]
+        preview = sys.argv[2]
+
+        return (title, payload, preview)
+    except IndexError:
+        raise IndexError(f"Required arguments not passed\n{_usage}")
+
+
+title, payload, preview = get_input()
+asyncio.run(main(title=title, payload=payload, preview=preview))
