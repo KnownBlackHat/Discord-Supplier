@@ -64,4 +64,7 @@ async def main(title: str, payload: str, preview: Union[None, str] = None) -> No
         )
 
 
-asyncio.run(main(title=sys.argv[1], payload=sys.argv[2], preview=sys.argv[3]))
+try:
+    asyncio.run(main(title=sys.argv[1], payload=sys.argv[2], preview=sys.argv[3]))
+except IndexError:
+    raise IndexError(f"Required arguments not passed\n{_usage}")
