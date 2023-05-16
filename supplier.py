@@ -3,10 +3,10 @@
 import asyncio
 import re
 import sys
+from typing import Tuple, Union
 
 import aiohttp
 import disnake
-from typing import Tuple, Union
 
 from utils import Embeds
 
@@ -35,9 +35,8 @@ async def send_webhook(
     webhook_url: str,
     embed: disnake.Embed,
     username: str,
+    avatar_url: str,
     content: Union[None, str] = None,
-    avatar_url: str = "https://cdn.discordapp.com/avatars/1087375480304451727/"
-    "f780c7c8c052c66c89f9270aebd63bc2.png?size=1024",
 ) -> None:
     """Sends Webhook to the guild"""
     async with aiohttp.ClientSession() as session:
@@ -47,14 +46,13 @@ async def send_webhook(
         )
 
 
-async def main(title: str, payload: str, preview: Union[None, str] = None) -> None:
-    try:
-        if re.match(r"^(https?://)", payload):
-            payload = f"**Link: {await encrypt(payload)}**"
-        EMBED = Embeds.emb(disnake.Color.random(), title, payload).set_image(preview)
+async def main(
+    title: str, payload: str, preview: Union[None, str] = None, ads=True
+) -> None:
+    if re.match(r"^(https?://)", payload):
+        payload = f"**Link: {(await encrypt(payload)) if ads else payload}**"
+    EMBED = Embeds.emb(disnake.Color.random(), title, payload).set_image(preview)
 
-    except IndexError:
-        raise AttributeError(f"Required arguments not passed\n{_usage}")
     for webhook in WEBHOOKS:
         await send_webhook(
             webhook_url=webhook,
@@ -76,4 +74,4 @@ def get_input() -> Tuple[str, str, str]:
 
 
 title, payload, preview = get_input()
-asyncio.run(main(title=title, payload=payload, preview=preview))
+asyncio.run(main(title=title, payload=payload, preview=preview, ads=True))
